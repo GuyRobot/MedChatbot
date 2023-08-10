@@ -5,7 +5,7 @@ from huggingface_hub.hf_api import HfFolder
 from transformers import AutoModelForSeq2SeqLM
 from transformers import AutoTokenizer
 
-os.system("cd bart-base-finetuned-xsum && git pull origin main")
+os.system("git clone https://huggingface.co/GuysTrans/bart-base-finetuned-xsum")
 HfFolder.save_token('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')
 
 model_checkpoint = "facebook/bart-base"
