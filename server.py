@@ -37,7 +37,7 @@ PAGE_ACCESS_TOKEN = os.environ['PAGE_ACCESS_TOKEN']  # paste your page access to
 
 
 def get_bot_response(message):
-    return generate_summary(message, model)[1]
+    return generate_summary(message, model)[1][0]
 
 
 def verify_webhook(req):
@@ -52,6 +52,7 @@ def respond(sender, message):
     pass it on to a function that sends it."""
     response = get_bot_response(message)
     send_message(sender, response)
+    return response
 
 
 def is_user_message(message):
@@ -71,13 +72,14 @@ def listen():
     if request.method == 'POST':
         payload = request.json
         event = payload['entry'][0]['messaging']
+        res = "ok"
         for x in event:
             if is_user_message(x):
                 text = x['message']['text']
                 sender_id = x['sender']['id']
-                respond(sender_id, text)
+                res = respond(sender_id, text)
 
-        return "ok"
+        return res
 
 
 def send_message(recipient_id, text):
